@@ -1,4 +1,6 @@
 * Hackthebox
+  * [Challenges](Hackthebox/challenges.md)
+  * [Machines](Hackthebox/machines.md)
   * [Startingpoint](Hackthebox/startingpoint.md)
 * [Readme](README.md)
 * Tryhackme
