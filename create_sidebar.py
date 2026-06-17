@@ -21,7 +21,7 @@ def generate_sidebar(root_dir="docs", indent=0):
             # Use relative path from root_dir
             relative_path = os.path.relpath(full_path, start="docs")
             file_name = os.path.splitext(item)[0].replace("-", " ").title()
-            sidebar_lines.append("  " * indent + f"* [{file_name}](./{relative_path})")
+            sidebar_lines.append("  " * indent + f"* [{file_name}](/{relative_path})")
     return sidebar_lines
 
 # Generate sidebar
