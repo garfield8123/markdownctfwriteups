@@ -97,3 +97,11 @@ https://haxx.in/files/gnu-acme.py
 GLIBC_TUNABLES
 cat /root/root.txt
 ```
+
+## Principal
+```shell
+./networkscan.sh <ip_address>
+6.0.3
+/static/js/app.js
+/api/auth/jwks
+```
